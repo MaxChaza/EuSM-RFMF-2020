@@ -1,64 +1,35 @@
 @import "index.css";
 
 #home{
-
 	background-image: url('../images/space3.jpg');
-
 	background-repeat: no-repeat;
-
 	background-attachment: fixed;
-
 	background-size: cover; 
-
     width: 100%;
-
 	text-align:left;
-
 }
 
 .menu li:hover > a { color: #245B97;}
 
-
-
 .myName h1:hover > a { color: #245B97; }
-
-
-
-
 
 #ligne
 
 {
-
 	background-color:rgba(186, 0, 196, 0.30);
-
 }
-
-
 
 #ligneNoir
-
 {
-
 	background-color:#BA00C4;
-
 }
-
-
 
 #surmiddle
-
 {
-
 	background-color:rgba(186, 0, 196, 0.10);
-
 }
 
-
-
 #jeu {
-
-
 
 	z-index: 0;
 
@@ -78,12 +49,7 @@
 
 }
 
-
-
 #lignePied
-
 {
-
 	background-color:#BA00C4;
-
 }

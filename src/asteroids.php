@@ -1,13 +1,9 @@
+
 <?php
 
 	$page = 'asteroids';
-
 	$dir_lang = '../langues/';
-
 	include('../langues.php');
-
-	
-
 	include('./headerProjet.php');
 
 ?>
@@ -68,10 +64,10 @@
 		<div id ="espace">
 
 		</div>
-
 	</div>
 
-	
+
+
 
 <?php
 

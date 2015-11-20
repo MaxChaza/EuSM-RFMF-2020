@@ -39,7 +39,7 @@
 					formatDate = d3.time.format("%d d"),
 					formatMonth = d3.time.format("%b");
 
-				var color = d3.scale.linear()
+				var colorr = d3.scale.linear()
 					.range(["hsl(-180,50%,50%)", "hsl(180,50%,50%)"])
 					.interpolate(interpolateHsl);
 
@@ -53,8 +53,10 @@
 					//.attr("width", width)
 					//.attr("height", height)
 					.append("g")
-					.attr("transform", "translate(" + width  + "," + height / 2 + ")"
-					);
+					.attr("transform", "translate(" + width  + "," + height / 2 + ")")
+					.on("click", function(d) {  
+						metExploreD3.GraphUtils.exportPNG();
+				    });
 
 				var field = svg.selectAll("g")
 					.data(fields)
@@ -78,7 +80,7 @@
 					.transition()
 					  .ease("elastic")
 					  .attrTween("d", arcTween)
-					  .style("fill", function(d) { return color(d.value); });
+					  .style("fill", function(d) { return colorr(d.value); });
 
 				  /*field.select("text")
 					  .attr("dy", function(d) { return d.value < .5 ? "-.5em" : "1em"; })
@@ -132,6 +134,7 @@
 						<li><a href="opal.php" class="messages">Opal-GUI</a></li>
 						<li><a href="quadran.php" class="signout">Quadran</a></li>
 						<li><a href="interaction.php" class="irit">IRIT</a></li>
+						<li><a href="metexplore.php" class="metexplore">MetExplore</a></li>
 						<!-- <li><a href="#" class="signout"><?php echo $projetut;?></a></li>-->
 					</ul>
 				</li>
