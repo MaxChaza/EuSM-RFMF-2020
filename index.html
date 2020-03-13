@@ -1,410 +1,884 @@
-<?php
-
-	$dir_lang = './langues/';
-
-	$page = 'index';
-
-	include('./langues.php');
-
-?>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-
-   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-   
-
-<html xmlns="http://www.w3.org/1999/xhtml" lang="fr" xml:lang="fr">
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
 
-	<title>Maxime Chazalviel</title>
 
-	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <link href="img/favicon.ico" type="image/x-icon" rel="shortcut icon">
 
-	<link href="images/favicon.ico" type="image/x-icon" rel="shortcut icon">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
 
-	<!-- Lien vers ma feuille de styles css -->
+  <title>Maxime Chazalviel</title>
 
-	<link rel="stylesheet" type="text/css" href="src/index.css" />
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-	<script type="text/javascript" src="src/cprefixfree.dynamic-dom.js"></script>
-	
+  <!-- Custom fonts for this template -->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
 
+  <!-- Custom styles for this template -->
+  <link href="css/agency.min.css" rel="stylesheet">
 
-	
 </head>
 
-
-
-<body>
-
-	<div id="ligneNoir" >
-
-	</div>
-
-	
-
-	<div id="ligne" >
-
-	</div>
-
-	
-
-	<div id="home">
-
-		<div id="header">
-
-		<div class="clock">
-				<script src="http://d3js.org/d3.v3.js"></script>
-				<script>
-
-				var width = 96,
-					height = 75,
-					radius = Math.min(width, height) / 1.9,
-					spacing = .09;
-
-				var formatSecond = d3.time.format("%S s"),
-					formatMinute = d3.time.format("%M m"),
-					formatHour = d3.time.format("%H h"),
-					formatDay = d3.time.format("%a"),
-					formatDate = d3.time.format("%d d"),
-					formatMonth = d3.time.format("%b");
-
-				var color = d3.scale.linear()
-					.range(["hsl(-180,50%,50%)", "hsl(180,50%,50%)"])
-					.interpolate(interpolateHsl);
-
-				var arc = d3.svg.arc()
-					.startAngle(0)
-					.endAngle(function(d) { return d.value * 2 * Math.PI; })
-					.innerRadius(function(d) { return d.index * radius; })
-					.outerRadius(function(d) { return (d.index + spacing) * radius; });
-
-				var svg = d3.select(".clock").append("svg")
-					//.attr("width", width)
-					//.attr("height", height)
-					.append("g")
-					.attr("transform", "translate(" + width  + "," + height / 2 + ")"
-					);
-
-				var field = svg.selectAll("g")
-					.data(fields)
-				  .enter().append("g");
-
-				field.append("path");
-
-				field.append("text");
-
-				d3.transition().duration(0).each(tick);
-
-				//d3.select(self.frameElement).style("height", height + "px");
-
-				function tick() {
-				  field = field
-					  .each(function(d) { this._value = d.value; })
-					  .data(fields)
-					  .each(function(d) { d.previousValue = this._value; });
-
-				  field.select("path")
-					.transition()
-					  .ease("elastic")
-					  .attrTween("d", arcTween)
-					  .style("fill", function(d) { return color(d.value); });
-
-				  /*field.select("text")
-					  .attr("dy", function(d) { return d.value < .5 ? "-.5em" : "1em"; })
-					  .text(function(d) { return d.text; })
-					.transition()
-					  .ease("elastic")
-					  .attr("transform", function(d) {
-						return "rotate(" + 360 * d.value + ")"
-							+ "translate(0," + -(d.index + spacing / 2) * radius + ")"
-							+ "rotate(" + (d.value < .5 ? -90 : 90) + ")"
-					  });*/
-
-				  setTimeout(tick, 1000 - Date.now() % 1000);
-				}
-
-				function arcTween(d) {
-				  var i = d3.interpolateNumber(d.previousValue, d.value);
-				  return function(t) { d.value = i(t); return arc(d); };
-				}
-
-				function fields() {
-				  var now = new Date;
-				  return [
-					{index: .7, text: formatSecond(now), value: now.getSeconds() / 60},
-					{index: .6, text: formatMinute(now), value: now.getMinutes() / 60},
-					{index: .5, text: formatHour(now),   value: now.getHours() / 24},
-					{index: .3, text: formatDay(now),    value: now.getDay() / 7},
-					{index: .2, text: formatDate(now),   value: (now.getDate() - 1) / (32 - new Date(now.getYear(), now.getMonth(), 32).getDate())},
-					{index: .1, text: formatMonth(now),  value: now.getMonth() / 12}
-				  ];
-				}
-
-				// Avoid shortest-path interpolation.
-				function interpolateHsl(a, b) {
-				  var i = d3.interpolateString(a, b);
-				  return function(t) {
-					return d3.hsl(i(t));
-				  };
-				}
-
-				</script>
-			</div>
-			<div class="myName">
-
-				<h1><a  href="./index.php">Maxime Chazalviel</a></h1>
-
-			</div>
-
-				
-
-			<ul class="menu">
-
-				<li><a><?php echo $projets;?></a>
-
-					<ul>
-
-						<li><a href="src/asteroids.php" class="documents">Asteroids</a></li>
-
-						<li><a href="src/opal.php" class="messages">Opal-GUI</a></li>
-
-						<li><a href="src/quadran.php" class="signout">Quadran</a></li>
-						
-						<li><a href="src/interaction.php" class="irit">IRIT</a></li>
-
-						<!-- <li><a href="#" class="signout"><?php echo $projetut;?></a></li>-->
-
-					</ul>
-
-				</li>
-
-				<li><a href="src/cv.php">CV</a></li>
-
-				<li><a href="src/contact.php">Contact</a></li>
-
-				<!-- <li><a href="#"><?php echo $autres;?></a></li>-->
-
-			</ul>
-
-		</div>
-
-		
-
-		<div id="intitule">
-
-			<?php
-
-				echo $intitule;
-
-			?>
-
-		</div>
-
-		
-
-		<span id="sl_play" class="sl_command"></span>  
-
-		
-
-		<span id="sl_pause" class="sl_command"></span>  
-
-		   
-
-		<section id="slideshow"> 
-
-
-
-			<a class="play_commands pause" href="#sl_pause" title="Maintain paused">Pause</a>  
-
-			
-
-			<a class="play_commands play" href="#sl_play" title="Play the animation">Play</a>  
-
-			
-
-			<div class="container">  
-
-				<div class="c_slider"></div>  
-
-					<div class="slider">  
-
-					
-						<a href="src/asteroids.php" style="margin-right:-4px">
-
-							<figure>
-
-								<img src="images/space3.jpg" alt=""  height="600" />
-
-								<figcaption>Asteroids</figcaption>
-
-							</figure>
-
-						</a>
-
-						
-
-						<a href="src/opal.php"  style="margin-right:-4px">
-
-							<figure>
-
-								<img src="images/card17.jpg" alt="" height="600" />
-
-								<figcaption>OPAL GUI</figcaption>
-
-							</figure>
-
-						</a>
-
-						
-
-						<a href="src/quadran.php" style="margin-right:-4px">
-
-							<figure>
-
-								<img src="images/mont.jpg" alt="" height="600" />
-
-								<figcaption><?php echo $stage;?></figcaption>
-
-							</figure>
-
-						</a>
-
-						
-						
-						<a href="src/interaction.php" >
-
-							<figure>
-
-								<img src="images/interaction.jpg" alt="" height="600" />
-
-								<figcaption><?php echo $stageIrit;?></figcaption>
-
-							</figure>
-
-						</a>
-						
-					</div>  
-
-				</div>  
-
-			<span id="timeline"></span> 
-
-		</section> 
-
-	</div>
-
-	
-
-	<div id="middle" >
-
-		<div id="surmiddle" >
-
-		</div>
-
-	</div>
-
-	
-
-	<div id="presentation">
-
-		<div id="reseaux">
-
-			<div id="facebook">
-
-				<a  href="http://www.facebook.com/sharer.php?u=file://maximechazalviel.fr" target="_blank"><img src="images/ico/Nuova cartella/facebook64.png" alt="facebook" style="border:none"></a>
-
-			</div>
-
-			
-
-			<div id="twitter">
-
-				<a href="http://twitter.com/share?text=An%20Awesome%20Link&url=file://maximechazalviel.fr" target="_blank"><img src="images/ico/Nuova cartella/twitter64.png" alt="twitter" style="border:none"></a>
-
-			</div>
-
-			
-
-			<div id="linkedin">
-
-				<a href="http://fr.linkedin.com/pub/maxime-chazalviel/51/595/505" target="_blank"><img src="images/ico/Nuova cartella/linkedin64.png" alt="linkedin" style="border:none"></a>
-
-			</div>
-
-		</div>
-
-		
-
-		<div id="hpres" >
-
-			<div id="headpres">
-
-			</div>
-
-		</div>
-
-		
-
-		<div id="divpresentation" >
-
-			<?php echo $presentation;?>
-
-		</div>	
-
-			
-
-		<div id ="espace">
-
-		</div>
-
-		
-
-		<div id ="espace">
-
-		</div>
-
-		
-
-		<div id="lignePied">
-
-		</div>
-
-		
-
-		<div id="piedPage">
-
-			<div id="gauche">
-
-				<li><a href="#">Index</a></li>
-
-				<li><a href="src/cv.php">CV</a></li>
-
-				<li><a href="src/contact.php">Contact</a></li>
-
-				<!-- <li><a href="#"><?php echo $autres;?></a></li>-->
-
-			</div>
-
-			<div id="lang">
-
-				<?php
-
-					echo '<li><a  href="./index.php?lang=fr" target="_top"><img src="images/fr.png" alt="Fran&ccedil;ais" style="border:none"></a></li>';
-
-					echo '<li><a  href="./index.php?lang=en" target="_top"><img src="images/en.png" alt="Anglais" style="border:none"></a></li>';
-
-				?>
-
-			</div>
-
-		</div>
-
-	</div>
+<body id="page-top">
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="#page-top">@Le_Xaz</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav text-uppercase ml-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#Competences">Competences</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#portfolio">Portfolio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#Parcours">Parcours</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#Moi">Moi</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <header class="masthead">
+    <div class="container">
+      <div class="intro-text">
+        <div class="intro-lead-in">Maxime Chazalviel</div>
+        <div class="intro-heading text-uppercase">Ingénieur en bioinformatique</div>
+        <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#Competences">Plus sur moi!</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Competences -->
+  <section class="page-section" id="Competences">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">Compétences</h2>
+          <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+        </div>
+      </div>
+      <div class="row text-center">
+        <div class="col-md-4">
+          <span class="fa-stack fa-4x">
+            <i class="fas fa-circle fa-stack-2x text-primary"></i>
+            <i class="fas fa-chart-area fa-stack-1x fa-inverse"></i>
+          </span>
+          <h4 class="service-heading">Data Viz</h4>
+          <p class="text-muted">
+            D3.js, HighCharts</p>
+        </div>
+        <div class="col-md-4">
+          <span class="fa-stack fa-4x">
+            <i class="fas fa-circle fa-stack-2x text-primary"></i>
+            <i class="fas fa-code fa-stack-1x fa-inverse"></i>
+          </span>
+          <h4 class="service-heading">Langages</h4>
+          <p class="text-muted">JAVA, JavaScript, R, Shiny, PHP, Xml, HTML, CSS, AJAX, Bash, C++, Python, Perl, Slurm</p>
+        </div>
+        <div class="col-md-4">
+          <span class="fa-stack fa-4x">
+            <i class="fas fa-circle fa-stack-2x text-primary"></i>
+            <i class="fas fa-laptop-code fa-stack-1x fa-inverse"></i>
+          </span>
+          <h4 class="service-heading">Frameworks</h4>
+          <p class="text-muted">Ext JS, Angular 2, Node.js</p>
+        </div>
+        <div class="col-md-4">
+          <span class="fa-stack fa-4x">
+            <i class="fas fa-circle fa-stack-2x text-primary"></i>
+            <i class="fas fa-code-branch fa-stack-1x fa-inverse"></i>
+          </span>
+          <h4 class="service-heading">Intégration continue</h4>
+          <p class="text-muted">Git, Jasmine.js, Maven, Gitlab CI/CD, Jenkins</p>
+        </div>
+        <div class="col-md-4">
+          <span class="fa-stack fa-4x">
+            <i class="fas fa-circle fa-stack-2x text-primary"></i>
+            <i class="fas fa-cogs fa-stack-1x fa-inverse"></i>
+          </span>
+          <h4 class="service-heading">Méthodologie</h4>
+          <p class="text-muted">Scrum</p>
+        </div>
+        <div class="col-md-4">
+          <span class="fa-stack fa-4x">
+            <i class="fas fa-circle fa-stack-2x text-primary"></i>
+            <i class="fas fa-history fa-stack-1x fa-inverse"></i>
+          </span>
+          <h4 class="service-heading">Ordonnancement de tâches</h4>
+          <p class="text-muted">Slurm</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio Grid -->
+  <section class="bg-light page-section" id="portfolio">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">Portfolio</h2>
+          <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 col-sm-6 portfolio-item">
+          <a class="portfolio-link" data-toggle="modal" href="#portfolioModal1">
+            <div class="portfolio-hover">
+              <div class="portfolio-hover-content">
+                <i class="fas fa-plus fa-3x"></i>
+              </div>
+            </div>
+            <img class="img-fluid" src="img/portfolio/readyToPublish-thumbnail.PNG" alt="">
+          </a>
+          <div class="portfolio-caption">
+            <h4>Interprétations de signatures métaboliques</h4>
+            <p class="text-muted">Illustration</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 portfolio-item">
+          <a class="portfolio-link" data-toggle="modal" href="#portfolioModal2">
+            <div class="portfolio-hover">
+              <div class="portfolio-hover-content">
+                <i class="fas fa-plus fa-3x"></i>
+              </div>
+            </div>
+            <img class="img-fluid" src="img/portfolio/MetExplore.png" alt="">
+          </a>
+          <div class="portfolio-caption">
+            <h4>MetExplore</h4>
+            <p class="text-muted">Illustration</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 portfolio-item">
+          <a class="portfolio-link" data-toggle="modal" href="#portfolioModal3">
+            <div class="portfolio-hover">
+              <div class="portfolio-hover-content">
+                <i class="fas fa-plus fa-3x"></i>
+              </div>
+            </div>
+            <img class="img-fluid" src="img/portfolio/MetExploreViz-thumbnail.png" alt="">
+          </a>
+          <div class="portfolio-caption">
+            <h4>MetExploreViz</h4>
+            <p class="text-muted">Graphic Design</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 portfolio-item">
+          <a class="portfolio-link" data-toggle="modal" href="#portfolioModal4">
+            <div class="portfolio-hover">
+              <div class="portfolio-hover-content">
+                <i class="fas fa-plus fa-3x"></i>
+              </div>
+            </div>
+            <img class="img-fluid" src="img/portfolio/MetExploreTools-thumbnail.png" alt="">
+          </a>
+          <div class="portfolio-caption">
+            <h4>MetExplore Tools</h4>
+            <p class="text-muted">Identity</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 portfolio-item">
+          <a class="portfolio-link" data-toggle="modal" href="#portfolioModal5">
+            <div class="portfolio-hover">
+              <div class="portfolio-hover-content">
+                <i class="fas fa-plus fa-3x"></i>
+              </div>
+            </div>
+            <img class="img-fluid" src="img/portfolio/MetaboRank-thumbnail.png" alt="">
+          </a>
+          <div class="portfolio-caption">
+            <h4>MetaboRank</h4>
+            <p class="text-muted">Branding</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 portfolio-item">
+          <a class="portfolio-link" data-toggle="modal" href="#portfolioModal6">
+            <div class="portfolio-hover">
+              <div class="portfolio-hover-content">
+                <i class="fas fa-plus fa-3x"></i>
+              </div>
+            </div>
+            <img class="img-fluid" src="img/portfolio/illustrationInteraction3D-thumbnail.png" alt="">
+          </a>
+          <div class="portfolio-caption">
+            <h4>Plateforme d’évaluation d'intéraction dans un environnement 3D</h4>
+            <p class="text-muted">Recherche en IHM</p>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-6 portfolio-item">
+          <a class="portfolio-link" data-toggle="modal" href="#portfolioModal7">
+            <div class="portfolio-hover">
+              <div class="portfolio-hover-content">
+                <i class="fas fa-plus fa-3x"></i>
+              </div>
+            </div>
+            <img class="img-fluid" src="img/portfolio/performanceweb-thumbnail.jpg" alt="">
+          </a>
+          <div class="portfolio-caption">
+            <h4>Preuve de concept d'analyses de performances de sites web</h4>
+            <p class="text-muted">Photography</p>
+          </div>
+        </div>
+<!--        <div class="col-md-4 col-sm-6 portfolio-item">-->
+<!--          <a class="portfolio-link" data-toggle="modal" href="#portfolioModal8">-->
+<!--            <div class="portfolio-hover">-->
+<!--              <div class="portfolio-hover-content">-->
+<!--                <i class="fas fa-plus fa-3x"></i>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <img class="img-fluid" src="img/portfolio/06-thumbnail.jpg" alt="">-->
+<!--          </a>-->
+<!--          <div class="portfolio-caption">-->
+<!--            <h4>Réseau Francophone de Métabolomique et de Fluxomique</h4>-->
+<!--            <p class="text-muted">Photography</p>-->
+<!--          </div>-->
+<!--        </div>-->
+        <div class="col-md-4 col-sm-6 portfolio-item">
+          <a class="portfolio-link" data-toggle="modal" href="#portfolioModal8">
+            <div class="portfolio-hover">
+              <div class="portfolio-hover-content">
+                <i class="fas fa-plus fa-3x"></i>
+              </div>
+            </div>
+            <img class="img-fluid" src="img/portfolio/Asteroids-thumbnail.png" alt="">
+          </a>
+          <div class="portfolio-caption">
+            <h4>Asteroids</h4>
+            <p class="text-muted">Photography</p>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-sm-6 portfolio-item">
+          <a class="portfolio-link" data-toggle="modal" href="#portfolioModal9">
+            <div class="portfolio-hover">
+              <div class="portfolio-hover-content">
+                <i class="fas fa-plus fa-3x"></i>
+              </div>
+            </div>
+            <img class="img-fluid" src="img/portfolio/card-thumbnail.jpg" alt="">
+          </a>
+          <div class="portfolio-caption">
+            <h4>Asteroids</h4>
+            <p class="text-muted">Photography</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Parcours -->
+  <section class="page-section" id="Parcours">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">Parcours</h2>
+          <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <ul class="timeline">
+            <li>
+              <div class="timeline-image">
+                <img class="rounded-circle img-fluid" src="img/parcours/network.jpg" alt="">
+              </div>
+              <div class="timeline-panel">
+                <div class="timeline-heading">
+                  <h4>March 2011</h4>
+                  <h4 class="subheading">RFMF</h4>
+                  <!--
+                   <img class="img-fluid small"  style="width:50%" src="img/logos/INRAE.png" alt="">
+                  -->
+                </div>
+                <div class="timeline-body">
+                  <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
+                </div>
+              </div>
+            </li>
+            <li class="timeline-inverted">
+              <div class="timeline-image">
+                <img class="rounded-circle img-fluid" src="img/parcours/medDayHEAD.png" alt="">
+              </div>
+              <div class="timeline-panel">
+                <div class="timeline-heading">
+                  <h4>2020-2017</h4>
+                  <h4 class="subheading">MedDay Pharma</h4>
+                  <!--
+                   <img class="img-fluid small"  style="width:50%" src="img/logos/MedDay.png" alt="">
+                  -->
+                </div>
+                <div class="timeline-body">
+                  <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="timeline-image">
+                <img class="rounded-circle img-fluid" src="img/logos/MetExploreViz.gif" alt="">
+              </div>
+              <div class="timeline-panel">
+                <div class="timeline-heading">
+                  <h4>March 2011</h4>
+                  <h4 class="subheading">INRAE</h4>
+                  <!--
+                   <img class="img-fluid small"  style="width:50%" src="img/logos/INRAE.png" alt="">
+                  -->
+                </div>
+                <div class="timeline-body">
+                  <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="timeline-image">
+                <img class="rounded-circle img-fluid" src="img/logos/MetExplore.gif" alt="">
+              </div>
+              <div class="timeline-panel">
+                <div class="timeline-heading">
+                  <h4>December 2012</h4>
+                  <h4 class="subheading">MetExplore</h4>
+                </div>
+                <div class="timeline-body">
+                  <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
+                </div>
+              </div>
+            </li>
+            <li  class="timeline-inverted">
+              <div class="timeline-image">
+                <img class="rounded-circle img-fluid" src="img/Parcours/4.jpg" alt="">
+              </div>
+              <div class="timeline-panel">
+                <div class="timeline-heading">
+                  <h4>July 2014</h4>
+                  <h4 class="subheading">Master 2 Bioinformatique Université Paul Sabatier</h4>
+                </div>
+                <div class="timeline-body">
+                  <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
+                </div>
+              </div>
+            </li>
+            <li class="timeline-inverted">
+              <div class="timeline-image">
+                <img class="rounded-circle img-fluid" src="img/logos/MetExplore.gif" alt="">
+              </div>
+              <div class="timeline-panel">
+                <div class="timeline-heading">
+                  <h4>December 2012</h4>
+                  <h4 class="subheading">IRIT</h4>
+                </div>
+                <div class="timeline-body">
+                  <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="timeline-image">
+                <img class="rounded-circle img-fluid" src="img/Parcours/4.jpg" alt="">
+              </div>
+              <div class="timeline-panel">
+                <div class="timeline-heading">
+                  <h4>July 2014</h4>
+                  <h4 class="subheading">L3 Faculté des sciences de Limoges</h4>
+                </div>
+                <div class="timeline-body">
+                  <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
+                </div>
+              </div>
+            </li>
+            <li class="timeline-inverted">
+              <div class="timeline-image">
+                <img class="rounded-circle img-fluid" src="img/logos/MetExplore.gif" alt="">
+              </div>
+              <div class="timeline-panel">
+                <div class="timeline-heading">
+                  <h4>December 2012</h4>
+                  <h4 class="subheading">IUT Informatique à l'université de Limoges</h4>
+                </div>
+                <div class="timeline-body">
+                  <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
+                </div>
+              </div>
+            </li>
+            <li class="timeline-inverted">
+              <div class="timeline-image">
+                <img class="rounded-circle img-fluid" src="img/Parcours/4.jpg" alt="">
+              </div>
+              <div class="timeline-panel">
+                <div class="timeline-heading">
+                  <h4>July 2014</h4>
+                  <h4 class="subheading">Quadran</h4>
+                </div>
+                <div class="timeline-body">
+                  <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p>
+                </div>
+              </div>
+            </li>
+            <li class="timeline-inverted">
+              <div class="timeline-image">
+                <h4>Be Part
+                  <br>Of Our
+                  <br>Story!</h4>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Moi -->
+  <section class="bg-light page-section" id="Moi">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">Moi</h2>
+          <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="Moi-member">
+            <img class="mx-auto rounded-circle" src="img/team/MC.jpg" alt="">
+            <h4>Maxime Chazalviel</h4>
+            <p class="text-muted">Lead Designer</p>
+            <ul class="list-inline social-buttons">
+              <li class="list-inline-item">
+                <a href="https://twitter.com/Le_Xaz" target="_blank">
+                  <i class="fab fa-twitter"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="https://github.com/MaxChaza" target="_blank">
+                  <i class="fab fa-github"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="https://www.linkedin.com/in/maxime-chazalviel-50559551/" target="_blank">
+                  <i class="fab fa-linkedin-in"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+          <p class="large text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut eaque, laboriosam veritatis, quos non quis ad perspiciatis, totam corporis ea, alias ut unde.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Clients -->
+  <section class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 col-sm-6">
+          <a href="#">
+            <img class="img-fluid d-block mx-auto" src="img/logos/Netlify-Logo200x50.png" alt="">
+          </a>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <a href="#">
+            <img class="img-fluid d-block mx-auto" src="img/logos/github200x50.png" alt="">
+          </a>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <a href="#">
+            <img class="img-fluid d-block mx-auto" src="img/logos/git200x50.png" alt="">
+          </a>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <a href="#">
+            <img class="img-fluid d-block mx-auto" src="img/logos/Bootstrap200x50.png" alt="">
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-4">
+          <span class="copyright">Copyright &copy; Your Website 2020</span>
+        </div>
+        <div class="col-md-4">
+          <ul class="list-inline social-buttons">
+            <li class="list-inline-item">
+              <a href="https://twitter.com/Le_Xaz" target="_blank">
+                <i class="fab fa-twitter"></i>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="https://github.com/MaxChaza" target="_blank">
+                <i class="fab fa-github"></i>
+              </a>
+            </li>
+            <li class="list-inline-item">
+              <a href="https://www.linkedin.com/in/maxime-chazalviel-50559551/" target="_blank">
+                <i class="fab fa-linkedin-in"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <ul class="list-inline quicklinks">
+            <li class="list-inline-item">
+              <a href="#">Privacy Policy</a>
+            </li>
+            <li class="list-inline-item">
+              <a href="#">Terms of Use</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Portfolio Modals -->
+
+  <!-- Modal 1 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2 class="text-uppercase">Project Name</h2>
+                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                <img class="img-fluid d-block mx-auto" src="img/portfolio/readyToPublish-full.PNG" alt="">
+                <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                <ul class="list-inline">
+                  <li>Date: January 2017</li>
+                  <li>Client: Threads</li>
+                  <li>Category: Illustration</li>
+                </ul>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                  <i class="fas fa-times"></i>
+                  Close Project</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2 class="text-uppercase">Project Name</h2>
+                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                <img class="img-fluid d-block mx-auto" src="img/portfolio/MetExplore-full.png" alt="">
+                <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                <ul class="list-inline">
+                  <li>Date: January 2017</li>
+                  <li>Client: Explore</li>
+                  <li>Category: Graphic Design</li>
+                </ul>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                  <i class="fas fa-times"></i>
+                  Close Project</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal3" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2 class="text-uppercase">Project Name</h2>
+                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                <img class="img-fluid d-block mx-auto" src="img/portfolio/MetExploreViz-full.png" alt="">
+                <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                <ul class="list-inline">
+                  <li>Date: January 2017</li>
+                  <li>Client: Finish</li>
+                  <li>Category: Identity</li>
+                </ul>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                  <i class="fas fa-times"></i>
+                  Close Project</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 4 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal4" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2 class="text-uppercase">Project Name</h2>
+                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                <img class="img-fluid d-block mx-auto" src="img/portfolio/MetExploreTools-full.png" alt="">
+                <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                <ul class="list-inline">
+                  <li>Date: January 2017</li>
+                  <li>Client: Lines</li>
+                  <li>Category: Branding</li>
+                </ul>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                  <i class="fas fa-times"></i>
+                  Close Project</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 5 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal5" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2 class="text-uppercase">Project Name</h2>
+                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                <img class="img-fluid d-block mx-auto" src="img/portfolio/MetaboRank-full.png" alt="">
+                <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                <ul class="list-inline">
+                  <li>Date: January 2017</li>
+                  <li>Client: Southwest</li>
+                  <li>Category: Website Design</li>
+                </ul>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                  <i class="fas fa-times"></i>
+                  Close Project</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 6 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal6" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2 class="text-uppercase">Project Name</h2>
+                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                <img class="img-fluid d-block mx-auto" src="img/portfolio/illustrationInteraction3D-thumbnail.png" alt="">
+                <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                <ul class="list-inline">
+                  <li>Date: January 2017</li>
+                  <li>Client: Window</li>
+                  <li>Category: Photography</li>
+                </ul>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                  <i class="fas fa-times"></i>
+                  Close Project</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 7 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal7" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2 class="text-uppercase">Project Name</h2>
+                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                <img class="img-fluid d-block mx-auto" src="img/portfolio/performanceweb-full.jpg" alt="">
+                <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                <ul class="list-inline">
+                  <li>Date: January 2017</li>
+                  <li>Client: Window</li>
+                  <li>Category: Photography</li>
+                </ul>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                  <i class="fas fa-times"></i>
+                  Close Project</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 8 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal8" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2 class="text-uppercase">Project Name</h2>
+                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                <img class="img-fluid d-block mx-auto" src="img/portfolio/Asteroids-full.png" alt="">
+                <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                <ul class="list-inline">
+                  <li>Date: January 2017</li>
+                  <li>Client: Window</li>
+                  <li>Category: Photography</li>
+                </ul>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                  <i class="fas fa-times"></i>
+                  Close Project</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 9 -->
+  <div class="portfolio-modal modal fade" id="portfolioModal9" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal">
+          <div class="lr">
+            <div class="rl"></div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 mx-auto">
+              <div class="modal-body">
+                <!-- Project Details Go Here -->
+                <h2 class="text-uppercase">Project Name</h2>
+                <p class="item-intro text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+                <img class="img-fluid d-block mx-auto" src="img/portfolio/card-full.jpg" alt="">
+                <p>Use this area to describe your project. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est blanditiis dolorem culpa incidunt minus dignissimos deserunt repellat aperiam quasi sunt officia expedita beatae cupiditate, maiores repudiandae, nostrum, reiciendis facere nemo!</p>
+                <ul class="list-inline">
+                  <li>Date: January 2017</li>
+                  <li>Client: Window</li>
+                  <li>Category: Photography</li>
+                </ul>
+                <button class="btn btn-primary" data-dismiss="modal" type="button">
+                  <i class="fas fa-times"></i>
+                  Close Project</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Contact form JavaScript -->
+  <script src="js/jqBootstrapValidation.js"></script>
+  <script src="js/contact_me.js"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="js/agency.min.js"></script>
 
 </body>
 
 </html>
-
