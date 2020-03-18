@@ -1,3 +1,33 @@
 .modalimg img:hover {
     opacity: 0.8;
 }
+
+.timeline:before{
+    left:80% !important;
+}
+
+.timeline2:before{
+    left:20% !important;
+}
+
+.timeline>li .timeline-image {
+    left:80% !important;
+    width: 190px;
+    height: 190px;
+    margin-left: -95px;
+}
+
+.timeline2>li .timeline-image {
+    left:20% !important;
+    width: 190px;
+    height: 190px;
+    margin-left: -95px;
+}
+
+.timeline>li .timeline-panel {
+    width:60% !important;
+}
+
+.timeline2>li .timeline-panel {
+    width:60% !important;
+}
