@@ -7,6 +7,23 @@
     margin-bottom: 10px !important;
 }
 
+ul.com-buttons li {
+     font-size: 20px !important;
+     line-height: 50px !important;
+     /* display: block; */
+     width: 50px !important;
+     height: 50px !important;
+     transition: all .3s !important;
+     color: #fff !important;
+     border-radius: 100% !important;
+     outline: 0 !important;
+     background-color: #212529 !important;
+ }
+
+.portfolio-modal .modal-content ul.list-inline {
+    margin-bottom: 10px !important;
+}
+
 @media(min-width:922px) {
     .timeline>li{
         min-height:100px !important;
