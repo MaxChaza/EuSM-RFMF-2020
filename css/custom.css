@@ -104,3 +104,21 @@ ul.com-buttons li {
         width:63% !important;
     }
 }
+
+@media(min-width:300px) {
+    header.masthead .intro-text .intro-heading {
+        font-size: 30px;
+        font-weight: 700;
+        line-height: 50px;
+        margin-bottom: 25px;
+        font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    }
+}
+
+@media(min-width:300px) {
+    .page-section h2.section-heading {
+        font-size: 30px;
+        margin-top: 0;
+        margin-bottom: 15px;
+    }
+}
