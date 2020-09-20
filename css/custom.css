@@ -39,3 +39,130 @@ ul.com-buttons li {
         margin-bottom: 15px;
     }
 }
+
+/* Map */
+.map {
+  height: 30rem;
+}
+
+@media (max-width: 992px) {
+  .map {
+    height: 75%;
+  }
+}
+
+.map iframe {
+  pointer-events: none;
+}
+
+.map iframe {
+  height: 100%;
+  width: 100%;
+  border: 0;
+}
+
+
+/* COUNTDOWN CONFIGURATION */
+
+.countdown-divider {
+  padding: 144px 0px;
+}
+
+.countdown-divider img, {
+  max-width: 300px;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.countdown-header h1 {
+  margin-bottom: 0px;
+}
+
+.countdown-header:before {
+  opacity: 0.8 !important;
+}
+
+.countdown-header .uppercase {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+@media all and (max-width: 768px) {
+  .countdown-header img {
+    max-width: 150px;
+  }
+}
+
+.countdown {
+  text-align: center;
+  margin-top: 72px;
+}
+
+.countdown-row {
+  color: #000;
+  font-size: 80px;
+  font-weight: 300;
+}
+
+.countdown-section {
+  width: 25%;
+  display: inline-block;
+}
+
+.countdown-amount {
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.countdown-period {
+  display: block;
+  font-size: 24px;
+}
+
+@media all and (max-width: 767px) {
+  .countdown {
+    margin-top: 48px;
+  }
+  .countdown-row {
+    font-size: 36px;
+  }
+  .countdown-period {
+    font-size: 16px;
+  }
+}
+/*
+#h {
+  background: url(../img/header.jpg) no-repeat center top;
+  padding-top: 150px;
+  text-align: center;
+  background-attachment: relative;
+  background-position: center center;
+  min-height: 700px;
+  width: 100%;
+  color: white;
+  -webkit-background-size: 100%;
+  -moz-background-size: 100%;
+  -o-background-size: 100%;
+  background-size: 100%;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#h h1 {
+  font-weight: 900;
+  font-size: 60px;
+  letter-spacing: 1px;
+}
+
+#h h2 {
+  font-size: 38px;
+}
+
+#h h5 {
+  font-weight: 400;
+  letter-spacing: 0.8px;
+  margin-bottom: 25px;
+}*/
