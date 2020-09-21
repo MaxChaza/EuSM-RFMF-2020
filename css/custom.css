@@ -1,3 +1,7 @@
+.page-section {
+  padding: 50px 0;
+}
+
 header.masthead {
   text-align: center;
   color: white;
@@ -35,19 +39,35 @@ ul.com-buttons li {
 }
 
 
+@font-face {
+font-family: "robotaFont";
+src:url("robota-noncommercial.regular.otf") format("opentype");
+}
+
 
 @media(min-width:300px) {
     header.masthead .intro-text .intro-heading {
         font-size: 50px;
-        font-weight: 700;
+        font-weight: 400;
         line-height: 50px;
         margin-bottom: 25px;
-        font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+        font-family: 'robotaFont', 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
     }
+}
+
+@font-face {
+font-family: "CustomFont";
+src: url("CustomFont.eot");
+src: url("CustomFont.woff") format("woff"),
+url("CustomFont.otf") format("opentype"),
+url("CustomFont.svg#filename") format("svg");
 }
 
 @media(min-width:300px) {
     .page-section h2.section-heading {
+       font-family: 'robotaFont';
+       /*color: #1D4971;*/
+       font-weight: 400;
         font-size: 50px;
         margin-top: 0;
         margin-bottom: 15px;
